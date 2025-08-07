@@ -13,6 +13,10 @@
     <title>Keys & Strings</title>
 	<!-- Favicon Icon -->
 	<link rel="shortcut icon" type="image/x-icon" href="assets/icon-white.svg">
+
+    <!-- Include Flatpickr -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 	<!-- Google Fonts Css-->
 	<link rel="preconnect" href="https://fonts.googleapis.com/">
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
@@ -122,6 +126,8 @@
                 <!-- Contact Info List Start -->
                 <div class="contact-info-list">
                     <!-- Contact Info Item Start -->
+                    <div><img src="assets/music-side.jpg" alt="" style="width: 500px;position: relative;bottom: 150px;height: 350px;"></div>
+
                     <div class="contact-info-item wow fadeInUp">
                         <div class="icon-box">
                             <img src="images/icon-phone.svg" alt="">
@@ -167,7 +173,7 @@
                 </div>
 
                 <!-- Demo Class Form (Hidden by default) -->
-                <div id="demoForm" class="contact-us-form" style="display: none;">
+                <div id="demoForm" class="contact-us-form">
                     <h4 class="wow fadeInUp">Register for Free Demo Class</h4>
                     <p class="wow fadeInUp" data-wow-delay="0.2s">Demo classes are conducted only on Sundays. Please select a date and fill in your details.</p>
                     
@@ -175,10 +181,30 @@
                         <div class="row">
                             <!-- Calendar for Sunday Selection -->
                             <div class="form-group col-md-12 mb-4">
-                                <label for="demoDate">Select Demo Class Date (Sundays Only):</label>
-                                <input type="date" name="demoDate" class="form-control" id="demoDate" required>
+                                <label for="demoDate">Select Demo Class Date (Saturday and Sundays Only):</label>
+                                <!-- <input type="date" name="demoDate" class="form-control" id="demoDate" required style="color: aqua;"> -->
+                                <input type="text" id="demoDate" class="form-control" required placeholder="Click To Select Date">
+                                <script>
+                                flatpickr("#demoDate", {
+                                    dateFormat: "Y-m-d",
+                                    disable: [
+                                    function(date) {
+                                        // Enable only Saturday (6) and Sunday (0)
+                                        return date.getDay() !== 0 && date.getDay() !== 6;
+                                    }
+                                    ]
+                                });
+                                </script>
+
                                 <div class="help-block with-errors"></div>
                             </div>
+
+                            <!-- <style>
+                                input[type="date"]::-webkit-calendar-picker-indicator {
+                                    filter: invert(1); /* inverts black to white */
+                                    cursor: pointer;
+                                }
+                            </style> -->
 
                             <!-- Student Name -->
                             <div class="form-group col-md-12 mb-4">
@@ -217,12 +243,6 @@
                                 <div class="help-block with-errors"></div>
                             </div>
 
-                            <!-- Registration Payment -->
-                            <div class="form-group col-md-12 mb-4">
-                                <label for="payment">Registration Payment:</label>
-                                <input type="text" name="payment" class="form-control" id="payment" placeholder="Payment Details" required>
-                                <div class="help-block with-errors"></div>
-                            </div>
 
                             <!-- Submit Button -->
                             <div class="col-lg-12">
@@ -290,10 +310,10 @@
     // Restrict date picker to Sundays only
     document.getElementById('demoDate').addEventListener('input', function(e) {
         const selectedDate = new Date(e.target.value);
-        if (selectedDate.getDay() !== 0) { // 0 is Sunday
-            alert('Please select a Sunday for the demo class.');
-            e.target.value = '';
-        }
+        // if (selectedDate.getDay() !== 0) { // 0 is Sunday
+        //     alert('Please select a Sunday for the demo class.');
+        //     e.target.value = '';
+        // }
     });
 
     // Handle form submission (for demo purposes, shows alert)
